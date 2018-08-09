@@ -9,6 +9,7 @@ var app = express();
 // importar rutas
 var appRoutes = require('./routes/app');
 var usuarioRoutes = require('./routes/usuario');
+var loginRoutes = require('./routes/login');
 
 //body parser
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -17,6 +18,7 @@ app.use(bodyParser.json());
 // midelware routes
 app.use('/', appRoutes);
 app.use('/usuario', usuarioRoutes);
+app.use('/login', loginRoutes);
 
 // conexion a la bd
 mongoose.connection.openUri('mongodb://localhost:27017/hospitalDB', (err, res) => {
