@@ -9,7 +9,12 @@ var app = express();
 // importar rutas
 var appRoutes = require('./routes/app');
 var usuarioRoutes = require('./routes/usuario');
+var hospitalRoutes = require('./routes/hospital');
+var medicoRoutes = require('./routes/medico');
+var busquedaRoutes = require('./routes/busqueda');
 var loginRoutes = require('./routes/login');
+var uploadRoutes = require('./routes/upload');
+var imagenesRoutes = require('./routes/imagenes');
 
 //body parser
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -18,7 +23,12 @@ app.use(bodyParser.json());
 // midelware routes
 app.use('/', appRoutes);
 app.use('/usuario', usuarioRoutes);
+app.use('/hospital', hospitalRoutes);
+app.use('/medico', medicoRoutes);
+app.use('/busqueda', busquedaRoutes);
 app.use('/login', loginRoutes);
+app.use('/upload', uploadRoutes);
+app.use('/imagenes', imagenesRoutes);
 
 // conexion a la bd
 mongoose.connection.openUri('mongodb://localhost:27017/hospitalDB', (err, res) => {
