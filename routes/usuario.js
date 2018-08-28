@@ -47,7 +47,7 @@ app.get('/', (req, res, next) => {
 // ==================================================
 // metodo: crear nuevo usuario
 // ==================================================
-app.post('/', mdAutenticacion.verificaToken, (req, res) => {
+app.post('/', (req, res) => {
     /* obtiene el body del request */
     var body = req.body;
     /* crea el objeto nuevo usuario */
@@ -56,7 +56,8 @@ app.post('/', mdAutenticacion.verificaToken, (req, res) => {
         email: body.email,
         password: bcrypt.hashSync(body.password, 10),
         img: body.img,
-        role: body.role
+        role: body.role,
+		google: body.google ? body.google : false
     });
     /* guardamos el usuario a la bd */
     usuario.save((err, usaurioGuardado) => {
