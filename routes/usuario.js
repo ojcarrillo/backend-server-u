@@ -85,7 +85,7 @@ app.put('/:id', mdAutenticacion.verificaToken, (req, res) => {
     /* obtiene el body del request */
     var body = req.body;
 
-    Usuario.findById(id, '-password')
+    Usuario.findById(id)
         .exec((err, usuarioDB) => {
             if (err) {
                 return res.status(500).json({
@@ -103,7 +103,9 @@ app.put('/:id', mdAutenticacion.verificaToken, (req, res) => {
             }
             /* asignamos los valores al registro */
             Object.keys(body).forEach(key => {
-                usuarioDB[key] = body[key];
+				if(body[key]!=null){
+					usuarioDB[key] = body[key];
+				}
             });
             /* guardamos el usuario a la bd */
             usuarioDB.save((err, usaurioGuardado) => {

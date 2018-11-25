@@ -14,7 +14,7 @@ var Usuario = require('../models/usuario');
 // rutas/peticiones
 app.get('/:tipo/:img', (req, res, next) => {
     var tipo = req.params.tipo;
-    var img = req.params.tipo;
+    var img = req.params.img;
 
     // Referencia a nuestros modelos
     var Modelos = {
