@@ -21,6 +21,7 @@ app.get('/', (req, res, next) => {
     var offset = Number(req.query.desde || 0);
 
     Medico.find({})
+        .sort('nombre')
         .skip(offset)
         .limit(limit)
         .populate('usuario', 'nombre email')

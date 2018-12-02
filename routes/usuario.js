@@ -22,6 +22,7 @@ app.get('/', (req, res, next) => {
     var offset = Number(req.query.desde || 0);
 
     Usuario.find({}, '-password')
+        .sort('nombre')
         .skip(offset)
         .limit(limit)
         .exec(
@@ -57,7 +58,7 @@ app.post('/', (req, res) => {
         password: bcrypt.hashSync(body.password, 10),
         img: body.img,
         role: body.role,
-		google: body.google ? body.google : false
+        google: body.google ? body.google : false
     });
     /* guardamos el usuario a la bd */
     usuario.save((err, usaurioGuardado) => {
@@ -79,7 +80,7 @@ app.post('/', (req, res) => {
 // ==================================================
 // metodo: actualizar usuario
 // ==================================================
-app.put('/:id', mdAutenticacion.verificaToken, (req, res) => {
+app.put('/:id', [mdAutenticacion.verificaToken, mdAutenticacion.verificaPermiso], (req, res) => {
     /* obtiene el id del usuario para actualizar */
     var id = req.params.id;
     /* obtiene el body del request */
@@ -103,9 +104,9 @@ app.put('/:id', mdAutenticacion.verificaToken, (req, res) => {
             }
             /* asignamos los valores al registro */
             Object.keys(body).forEach(key => {
-				if(body[key]!=null){
-					usuarioDB[key] = body[key];
-				}
+                if (body[key] != null) {
+                    usuarioDB[key] = body[key];
+                }
             });
             /* guardamos el usuario a la bd */
             usuarioDB.save((err, usaurioGuardado) => {
@@ -128,7 +129,7 @@ app.put('/:id', mdAutenticacion.verificaToken, (req, res) => {
 // ==================================================
 // metodo: borrar usuario
 // ==================================================
-app.delete('/:id', mdAutenticacion.verificaToken, (req, res) => {
+app.delete('/:id', [mdAutenticacion.verificaToken, mdAutenticacion.verificaAdmin], (req, res) => {
     /* obtiene el id del usuario para actualizar */
     var id = req.params.id;
     /* busca y elimina el registro por el id */

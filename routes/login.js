@@ -49,9 +49,38 @@ app.post('/', (req, res) => {
             msg: 'login correcto!',
             token: token,
             usuario: usuarioDB,
-            id: usuarioDB.id
+            id: usuarioDB.id,
+            menu: obtenerMenu(usuarioDB.role)
         });
     });
 });
+
+function obtenerMenu(role) {
+    var menu = [{
+            titulo: 'Principal',
+            icono: 'mdi mdi-gauge',
+            submenu: [
+                { titulo: 'Dashboard', url: '/dashboard' },
+                { titulo: 'ProgressBar', url: '/progress' },
+                { titulo: 'Gráficas 1', url: '/graficas1' },
+                { titulo: 'Promesas', url: '/promesas' },
+                { titulo: 'Observables', url: '/observables' }
+            ]
+        },
+        {
+            titulo: 'Mantenimientos',
+            icono: 'mdi mdi-folder-lock-open',
+            submenu: [
+                { titulo: 'Médicos', url: '/medicos' },
+                { titulo: 'Hospitales', url: '/hospitales' }
+            ]
+        }
+    ];
+    if (role == 'ADMIN_ROLE') {
+        menu[1].submenu.unshift({ titulo: 'Usuarios', url: '/usuarios' });
+    }
+    console.log(menu);
+    return menu;
+}
 
 module.exports = app;

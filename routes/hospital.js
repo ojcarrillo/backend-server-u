@@ -24,6 +24,7 @@ app.get('/', (req, res, next) => {
 
     Hospital.find({}, '')
         .skip(offset)
+        .sort('nombre')
         .limit(limit)
         .populate('usuario', 'nombre email')
         .exec(
